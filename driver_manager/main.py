@@ -163,5 +163,6 @@ class DriverManager:
             case "firefox":
                 options = self.__firefox_prefs(cast("FirefoxOptions", options))
 
+        options.page_load_strategy = "eager"
         self.driver = cls_(options=options)  # pyright: ignore[reportArgumentType]
         self.driver.set_web_element_cls(WebElement)
