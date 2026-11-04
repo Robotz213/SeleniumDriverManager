@@ -1,0 +1,48 @@
+[project]
+name = "driver-manager"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [{ name = "Robotz213", email = "nicholasazs213@gmail.com" }]
+requires-python = ">=3.14"
+dependencies = ["display-manager", "selenium>=4.52.0", "selenium-wire"]
+
+[project.scripts]
+driver-manager = "driver_manager:main"
+
+[build-system]
+requires = ["setuptools>=82.0.1", "wheel"]
+build = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "." }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["driver_manager*"]
+
+[tool.uv.sources]
+selenium-wire = { git = "https://github.com/Robotz213/selenium-wire.git" }
+display-manager = { git = "https://github.com/Robotz213/DisplayManager.git" }
+
+
+[tool.pyright]
+typeCheckingMode = "standard"
+include = ["crawjud", "typings"]
+exclude = [
+    "**/__pycache__",
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "build",
+    "dist",
+    "erros_ruff",
+    "**/node_modules",
+    "**/.*",
+    ".venv-normal",
+]
+venvPath = "."
+venv = ".venv"
+extraPaths = ["typings"]
