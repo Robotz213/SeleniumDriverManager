@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import ClassVar, Literal, TypedDict, overload
 
 from selenium.webdriver import Chrome as SeChrome
@@ -25,6 +26,7 @@ class DriverManager[D]:
         options: FirefoxOptions,
         *,
         wired: Literal[False] = False,
+        download_path: Path | None = None,
     ) -> None: ...
     @overload
     def __init__(
@@ -33,6 +35,7 @@ class DriverManager[D]:
         options: FirefoxOptions,
         *,
         wired: Literal[True] = True,
+        download_path: Path | None = None,
     ) -> None: ...
     @overload
     def __init__(
@@ -41,6 +44,7 @@ class DriverManager[D]:
         options: ChromeOptions,
         *,
         wired: Literal[False] = False,
+        download_path: Path | None = None,
     ) -> None: ...
     @overload
     def __init__(
@@ -49,6 +53,7 @@ class DriverManager[D]:
         options: ChromeOptions,
         *,
         wired: Literal[True] = True,
+        download_path: Path | None = None,
     ) -> None: ...
     @overload
     @classmethod
@@ -58,6 +63,7 @@ class DriverManager[D]:
         options: FirefoxOptions,
         *,
         wired: Literal[False],
+        download_path: Path | None = None,
     ) -> DriverManager[SeFirefox]: ...
     @overload
     @classmethod
@@ -67,6 +73,7 @@ class DriverManager[D]:
         options: FirefoxOptions,
         *,
         wired: Literal[True],
+        download_path: Path | None = None,
     ) -> DriverManager[WiredFirefox]: ...
     @overload
     @classmethod
@@ -76,6 +83,7 @@ class DriverManager[D]:
         options: ChromeOptions,
         *,
         wired: Literal[False],
+        download_path: Path | None = None,
     ) -> DriverManager[SeChrome]: ...
     @overload
     @classmethod
@@ -85,6 +93,7 @@ class DriverManager[D]:
         options: ChromeOptions,
         *,
         wired: Literal[True],
+        download_path: Path | None = None,
     ) -> DriverManager[WiredChrome]: ...
     @property
     def driver(self) -> D: ...
