@@ -4,7 +4,7 @@ version = "0.1.2"
 description = "Add your description here"
 readme = "README.md"
 authors = [{ name = "Robotz213", email = "nicholasazs213@gmail.com" }]
-requires-python = ">=3.14"
+requires-python = ">=3.15"
 dependencies = ["display-manager", "selenium>=4.52.0", "selenium-wire"]
 
 [project.scripts]

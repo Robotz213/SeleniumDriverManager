@@ -8,24 +8,24 @@ from contextlib import suppress
 from pathlib import Path
 from time import sleep
 from typing import TYPE_CHECKING, NoReturn, Self, cast
-from unicodedata import combining, normalize
+lazy from unicodedata import combining, normalize
 
-from selenium.common import (
+from selenium.webdriver.common.by import By
+lazy from selenium.common import (
     ElementNotInteractableException,
     StaleElementReferenceException,
 )
-from selenium.common.exceptions import (
+lazy from selenium.common.exceptions import (
     ElementClickInterceptedException,
 )
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.actions.wheel_input import (
+lazy from selenium.webdriver.common.action_chains import ActionChains
+lazy from selenium.webdriver.common.actions.wheel_input import (
     ScrollOrigin,
 )
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.utils import keys_to_typing
-from selenium.webdriver.remote.command import Command
-from selenium.webdriver.support.ui import Select
+lazy from selenium.webdriver.common.keys import Keys
+lazy from selenium.webdriver.common.utils import keys_to_typing
+lazy from selenium.webdriver.remote.command import Command
+lazy from selenium.webdriver.support.ui import Select
 
 from ._base import SEWebElement
 from .constants import (
@@ -49,7 +49,7 @@ COMMAND = 'return arguments[0].hasAttribute("{attr}")'
 
 def raise_execution_error(message: str) -> NoReturn:
 
-    raise Exception(message)  # noqa: TRY002
+    raise Exception(message)  # ruff: ignore[raise-vanilla-class]
 
 
 class ClickInterceptedError(Exception):
@@ -95,7 +95,7 @@ class PropertiesWebElement(SEWebElement):
         return text_
 
     @property
-    def TYPE(self) -> str:
+    def TYPE(self) -> str:  # ruff: ignore[invalid-function-name]
         """Retorne o tipo declarado no elemento."""
         return str(self.get_attribute("type") or "")
 
@@ -160,7 +160,7 @@ class PropertiesWebElement(SEWebElement):
         self._current_driver = val
 
     @property
-    def innerHTML(self) -> str:
+    def innerHTML(self) -> str:  # ruff: ignore[invalid-function-name]
         """Retorna o HTML interno do elemento."""
         cmd_ = "return arguments[0].innerHTML"
 
@@ -217,7 +217,7 @@ class WebElement(PropertiesWebElement):
 
         """
         normalizado1 = "".join(
-            [c for c in normalize("NFKD", item) if not combining(c)]
+            [c for c in normalize("NFKD", item) if not combining(c)],
         ).upper()
 
         items = self.find_elements(By.TAG_NAME, "option")
@@ -229,7 +229,7 @@ class WebElement(PropertiesWebElement):
             value = it.get_attribute("value")
             if value:
                 normalizado2 = "".join(
-                    [c for c in normalize("NFKD", key) if not combining(c)]
+                    [c for c in normalize("NFKD", key) if not combining(c)],
                 ).upper()
                 opt_itens.update({normalizado2: value})
 
@@ -398,7 +398,7 @@ class WebElement(PropertiesWebElement):
             command = "return $(arguments[0]).text();"
             text_item = self.parent.execute_script(command, item)
             text_item = " ".join(
-                [item for item in str(text_item).strip().split(" ") if item]
+                [item for item in str(text_item).strip().split(" ") if item],
             ).upper()
             opt_itens.update({text_item: value_item})
 
@@ -419,7 +419,7 @@ class WebElement(PropertiesWebElement):
 
     def scroll_from_origin(
         self,
-        delta_x: int,
+        delta_x: int,  # ruff: ignore[unused-method-argument]
         delta_y: int,
         origin: Self | None = None,
     ) -> None:
