@@ -8,24 +8,24 @@ from contextlib import suppress
 from pathlib import Path
 from time import sleep
 from typing import TYPE_CHECKING, NoReturn, Self, cast
-lazy from unicodedata import combining, normalize
+from unicodedata import combining, normalize
 
-from selenium.webdriver.common.by import By
-lazy from selenium.common import (
+from selenium.common import (
     ElementNotInteractableException,
     StaleElementReferenceException,
 )
-lazy from selenium.common.exceptions import (
+from selenium.common.exceptions import (
     ElementClickInterceptedException,
 )
-lazy from selenium.webdriver.common.action_chains import ActionChains
-lazy from selenium.webdriver.common.actions.wheel_input import (
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.actions.wheel_input import (
     ScrollOrigin,
 )
-lazy from selenium.webdriver.common.keys import Keys
-lazy from selenium.webdriver.common.utils import keys_to_typing
-lazy from selenium.webdriver.remote.command import Command
-lazy from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.utils import keys_to_typing
+from selenium.webdriver.remote.command import Command
+from selenium.webdriver.support.ui import Select
 
 from ._base import SEWebElement
 from .constants import (
