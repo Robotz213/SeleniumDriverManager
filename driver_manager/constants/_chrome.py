@@ -43,7 +43,7 @@ CHROME_ARGUMENTS = [
     "--hide-scrollbars",
     "--metrics-recording-only",
     "--safebrowsing-disable-auto-update",
-    "--no-arguments",
+    "--no-sandbox",
 ]
 CHROME_PREFERENCES: ChromePreferences = {
     "download.prompt_for_download": False,
