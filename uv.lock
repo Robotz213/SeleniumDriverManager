@@ -153,8 +153,8 @@ wheels = [
 
 [[package]]
 name = "display-manager"
-version = "0.1.2"
-source = { git = "https://github.com/Robotz213/DisplayManager.git#ba0078af9927d8c430df17ebb7cbe98353bd9905" }
+version = "0.1.3"
+source = { git = "https://github.com/Robotz213/DisplayManager.git#5e153d49f4f1a8d28ef65fe60f3fda7c7227b707" }
 dependencies = [
     { name = "psutil" },
     { name = "python-dotenv" },
@@ -363,8 +363,8 @@ wheels = [
 
 [[package]]
 name = "selenium-wire"
-version = "5.1.3"
-source = { git = "https://github.com/Robotz213/selenium-wire.git#c1df7da9d400ebf5a3b727ba624e308ea451ee3a" }
+version = "5.1.4"
+source = { git = "https://github.com/Robotz213/selenium-wire.git#a93a6d7c88e5922d74d93b6204acca7b3fac88be" }
 dependencies = [
     { name = "blinker" },
     { name = "certifi" },
