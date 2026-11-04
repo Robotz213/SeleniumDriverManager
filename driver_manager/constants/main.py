@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 from selenium.common.exceptions import (
@@ -11,6 +10,8 @@ from selenium.common.exceptions import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from _manager_types import SeWireArguments
 
 POLL_FREQUENCY: float = 0.1

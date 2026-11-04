@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+from contextlib import suppress
 from pathlib import Path
 from typing import ClassVar, Literal, Self, TypedDict, cast
+from uuid import uuid4
 
+from display_manager import DisplayManager
 from selenium.webdriver import Chrome as BaseSeChrome
 from selenium.webdriver import ChromeOptions, FirefoxOptions
 from selenium.webdriver import Firefox as BaseSeFirefox
@@ -81,6 +84,9 @@ class DriverManager:
         download_path: Path | None = None,
     ) -> None:
 
+        self.session = str(uuid4().hex)
+        self.__display = DisplayManager()
+
         try:
             self.__setup(browser, options, wired=wired, download_path=download_path)
 
@@ -115,6 +121,7 @@ class DriverManager:
         for arg in CHROME_ARGUMENTS:
             options.add_argument(arg)
 
+        options.add_argument(f"--display=:{self.__display.id!s}")
         return options
 
     def __wired_args[OPT: ChromeOptions | BaseOptions](self, options: OPT) -> OPT:
@@ -166,3 +173,11 @@ class DriverManager:
         options.page_load_strategy = "eager"
         self.driver = cls_(options=options)  # pyright: ignore[reportArgumentType]
         self.driver.set_web_element_cls(WebElement)
+
+    def exit(self) -> None:
+
+        with suppress(Exception):
+            self.driver.quit()
+
+        with suppress(Exception):
+            self.__display.stop()

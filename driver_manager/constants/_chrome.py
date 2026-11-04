@@ -1,7 +1,8 @@
-from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from _manager_types import (
         ChromePreferences,
         ChromeSettings,
@@ -42,6 +43,7 @@ CHROME_ARGUMENTS = [
     "--hide-scrollbars",
     "--metrics-recording-only",
     "--safebrowsing-disable-auto-update",
+    "--no-arguments",
 ]
 CHROME_PREFERENCES: ChromePreferences = {
     "download.prompt_for_download": False,
