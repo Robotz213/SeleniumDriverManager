@@ -12,6 +12,7 @@ from seleniumwire.webdriver import Firefox as BaseWiredFirefox
 from .constants import (
     CHROME_ARGUMENTS,
     CHROME_PREFERENCES,
+    FIREFOX_PREFERENCES,
     SEWIRE_ARGUMENTS,
 )
 from .element import WebElement
@@ -49,7 +50,7 @@ class SeFirefox(BaseSeFirefox):
 
 
 class StartManagerError(Exception):
-    def __init__(self, *args: object) -> None:
+    def __init__(self) -> None:
         self.message = 'Necessário selecionar "chrome" ou "firefox"'
         Exception.__init__(self, self.message)
 
@@ -81,26 +82,7 @@ class DriverManager:
     ) -> None:
 
         try:
-            if not download_path:
-                download_path = Path.cwd().joinpath("downloads")
-                print(f"dowload path: {download_path!s}")
-
-            self.download_dir = download_path
-            cls_ = self.SE_DRIVER[browser]
-            if wired:
-                cls_ = self.WIRED_DRIVER[browser]
-                options = self.__wired_args(cast("BaseOptions", options))
-
-            match browser:
-                case "chrome":
-                    options = self.__chrome_prefs(cast("ChromeOptions", options))
-                    options = self.__chrome_args(cast("ChromeOptions", options))
-
-                case "firefox":
-                    print("ok")
-
-            self.driver = cls_(options=options)  # pyright: ignore[reportArgumentType]
-            self.driver.set_web_element_cls(WebElement)
+            self.__setup(browser, options, wired=wired, download_path=download_path)
 
         except KeyError as e:
             raise StartManagerError from e
@@ -141,3 +123,45 @@ class DriverManager:
             options.add_argument(wire_arguments)  # pyright: ignore[reportAttributeAccessIssue]
 
         return options
+
+    def __firefox_prefs(self, options: FirefoxOptions) -> FirefoxOptions:
+
+        _ = self
+        for k, v in FIREFOX_PREFERENCES.items():
+            if k == "browser.download.dir":
+                d = str(self.download_dir)
+                options.set_preference("browser.download.dir", d)
+                continue
+
+            options.set_preference(k, v)
+
+        return options
+
+    def __setup(
+        self,
+        browser: Literal["firefox", "chrome"],
+        options: ChromeOptions | FirefoxOptions,
+        *,
+        wired: bool = False,
+        download_path: Path | None = None,
+    ) -> None:
+        cls_ = self.SE_DRIVER[browser]
+        if not download_path:
+            download_path = Path.cwd().joinpath("downloads")
+            print(f"dowload path: {download_path!s}")  # ruff: ignore[print]
+
+        self.download_dir = download_path
+        if wired:
+            cls_ = self.WIRED_DRIVER[browser]
+            options = self.__wired_args(cast("BaseOptions", options))
+
+        match browser:
+            case "chrome":
+                options = self.__chrome_prefs(cast("ChromeOptions", options))
+                options = self.__chrome_args(cast("ChromeOptions", options))
+
+            case "firefox":
+                options = self.__firefox_prefs(cast("FirefoxOptions", options))
+
+        self.driver = cls_(options=options)  # pyright: ignore[reportArgumentType]
+        self.driver.set_web_element_cls(WebElement)
