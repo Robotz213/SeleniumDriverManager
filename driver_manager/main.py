@@ -86,6 +86,7 @@ class DriverManager:
 
         self.session = str(uuid4().hex)
         self.__display = DisplayManager()
+        self.__display.start()
 
         try:
             self.__setup(browser, options, wired=wired, download_path=download_path)
