@@ -156,7 +156,7 @@ class DriverManager:
         cls_ = self.SE_DRIVER[browser]
         if not download_path:
             download_path = Path.cwd().joinpath("downloads")
-            print(f"dowload path: {download_path!s}")  # ruff: ignore[print]
+            print(f"download path: {download_path!s}")  # ruff: ignore[print]
 
         self.download_dir = download_path
         if wired:
