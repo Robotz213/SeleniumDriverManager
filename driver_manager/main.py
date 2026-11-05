@@ -25,31 +25,31 @@ class BaseOptions(FirefoxOptions, ChromeOptions): ...
 
 
 class WiredChrome(BaseWiredChrome):
-    _web_element_cls: WebElement
+    _web_element_cls: type[WebElement]
 
     def set_web_element_cls(self, cls: type[WebElement]) -> None:
-        self._web_element_cls = cls  # pyright: ignore[reportAttributeAccessIssue]
+        self._web_element_cls = cls
 
 
 class WiredFirefox(BaseWiredFirefox):
-    _web_element_cls: WebElement
+    _web_element_cls: type[WebElement]
 
     def set_web_element_cls(self, cls: type[WebElement]) -> None:
-        self._web_element_cls = cls  # pyright: ignore[reportAttributeAccessIssue]
+        self._web_element_cls = cls
 
 
 class SeChrome(BaseSeChrome):
-    _web_element_cls: WebElement
+    _web_element_cls: type[WebElement]
 
     def set_web_element_cls(self, cls: type[WebElement]) -> None:
-        self._web_element_cls = cls  # pyright: ignore[reportAttributeAccessIssue]
+        self._web_element_cls = cls
 
 
 class SeFirefox(BaseSeFirefox):
-    _web_element_cls: WebElement
+    _web_element_cls: type[WebElement]
 
     def set_web_element_cls(self, cls: type[WebElement]) -> None:
-        self._web_element_cls = cls  # pyright: ignore[reportAttributeAccessIssue]
+        self._web_element_cls = cls
 
 
 class StartManagerError(Exception):
@@ -122,7 +122,6 @@ class DriverManager:
         for arg in CHROME_ARGUMENTS:
             options.add_argument(arg)
 
-        options.add_argument(f"--display=:{self.__display.id!s}")
         return options
 
     def __wired_args[OPT: ChromeOptions | BaseOptions](self, options: OPT) -> OPT:
@@ -171,6 +170,7 @@ class DriverManager:
             case "firefox":
                 options = self.__firefox_prefs(cast("FirefoxOptions", options))
 
+        options.add_argument(f"--display=:{self.__display.id!s}")
         options.page_load_strategy = "eager"
         self.driver = cls_(options=options)  # pyright: ignore[reportArgumentType]
         self.driver.set_web_element_cls(WebElement)
