@@ -4,6 +4,7 @@ from typing import ClassVar, Literal, TypedDict, overload
 from selenium.webdriver import Chrome as SeChrome
 from selenium.webdriver import ChromeOptions, FirefoxOptions
 from selenium.webdriver import Firefox as SeFirefox
+from selenium.webdriver.support.wait import WebDriverWait
 from seleniumwire.webdriver import Chrome as WiredChrome
 from seleniumwire.webdriver import Firefox as WiredFirefox
 
@@ -18,6 +19,7 @@ class WiredDrivers(TypedDict):
 class DriverManager[D]:
     SE_DRIVER: ClassVar[Drivers]
     WIRED_DRIVER: ClassVar[WiredDrivers]
+    wait: WebDriverWait[D]  # pyright: ignore[reportInvalidTypeArguments]
 
     @overload
     def __init__(

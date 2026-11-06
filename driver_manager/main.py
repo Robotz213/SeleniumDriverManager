@@ -9,6 +9,7 @@ from display_manager import DisplayManager
 from selenium.webdriver import Chrome as BaseSeChrome
 from selenium.webdriver import ChromeOptions, FirefoxOptions
 from selenium.webdriver import Firefox as BaseSeFirefox
+from selenium.webdriver.support.wait import WebDriverWait
 from seleniumwire.webdriver import Chrome as BaseWiredChrome
 from seleniumwire.webdriver import Firefox as BaseWiredFirefox
 
@@ -90,6 +91,7 @@ class DriverManager:
 
         try:
             self.__setup(browser, options, wired=wired, download_path=download_path)
+            self.wait = WebDriverWait(self.driver, 10)
 
         except KeyError as e:
             raise StartManagerError from e
