@@ -16,14 +16,13 @@ class WiredDrivers(TypedDict):
     chrome: type[WiredChrome]
     firefox: type[WiredFirefox]
 
-class DriverManager[D]:
+class DriverManager[D, W]:
     SE_DRIVER: ClassVar[Drivers]
     WIRED_DRIVER: ClassVar[WiredDrivers]
-    wait: WebDriverWait[D]  # pyright: ignore[reportInvalidTypeArguments]
-
+    wait: W
     @overload
     def __init__(
-        self: DriverManager[SeFirefox],
+        self: DriverManager[SeFirefox, WebDriverWait[SeFirefox]],
         browser: Literal["firefox"],
         options: FirefoxOptions,
         *,
@@ -32,7 +31,7 @@ class DriverManager[D]:
     ) -> None: ...
     @overload
     def __init__(
-        self: DriverManager[WiredFirefox],
+        self: DriverManager[WiredFirefox, WebDriverWait[WiredFirefox]],
         browser: Literal["firefox"],
         options: FirefoxOptions,
         *,
@@ -41,7 +40,7 @@ class DriverManager[D]:
     ) -> None: ...
     @overload
     def __init__(
-        self: DriverManager[SeChrome],
+        self: DriverManager[SeChrome, WebDriverWait[SeFirefox]],
         browser: Literal["chrome"],
         options: ChromeOptions,
         *,
@@ -50,7 +49,7 @@ class DriverManager[D]:
     ) -> None: ...
     @overload
     def __init__(
-        self: DriverManager[WiredChrome],
+        self: DriverManager[WiredChrome, WebDriverWait[WiredChrome]],
         browser: Literal["chrome"],
         options: ChromeOptions,
         *,
@@ -66,7 +65,7 @@ class DriverManager[D]:
         *,
         wired: Literal[False],
         download_path: Path | None = None,
-    ) -> DriverManager[SeFirefox]: ...
+    ) -> DriverManager[SeFirefox, WebDriverWait[SeFirefox]]: ...
     @overload
     @classmethod
     def with_options(
@@ -76,7 +75,7 @@ class DriverManager[D]:
         *,
         wired: Literal[True],
         download_path: Path | None = None,
-    ) -> DriverManager[WiredFirefox]: ...
+    ) -> DriverManager[WiredFirefox, WebDriverWait[WiredFirefox]]: ...
     @overload
     @classmethod
     def with_options(
@@ -86,7 +85,7 @@ class DriverManager[D]:
         *,
         wired: Literal[False],
         download_path: Path | None = None,
-    ) -> DriverManager[SeChrome]: ...
+    ) -> DriverManager[SeChrome, WebDriverWait[SeChrome]]: ...
     @overload
     @classmethod
     def with_options(
@@ -96,7 +95,7 @@ class DriverManager[D]:
         *,
         wired: Literal[True],
         download_path: Path | None = None,
-    ) -> DriverManager[WiredChrome]: ...
+    ) -> DriverManager[WiredChrome, WebDriverWait[WiredChrome]]: ...
     @property
     def driver(self) -> D: ...
     def exit(self) -> None: ...

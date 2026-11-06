@@ -91,7 +91,7 @@ class DriverManager:
 
         try:
             self.__setup(browser, options, wired=wired, download_path=download_path)
-            self.wait = WebDriverWait(self.driver, 10)
+            self.wait = WebDriverWait(self.driver, 10, 0.1)
 
         except KeyError as e:
             raise StartManagerError from e
