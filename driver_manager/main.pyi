@@ -40,7 +40,7 @@ class DriverManager[D, W]:
     ) -> None: ...
     @overload
     def __init__(
-        self: DriverManager[SeChrome, WebDriverWait[SeFirefox]],
+        self: DriverManager[SeChrome, WebDriverWait[SeChrome]],
         browser: Literal["chrome"],
         options: ChromeOptions,
         *,
